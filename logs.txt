@@ -1,0 +1,878 @@
+Osnovna Arhitektura Strukture
+Centralni entiteti su klase Node i Heap. Node enkapsulira vrednost (i), dubinu (depth), pokazivač na roditeljski čvor (par) i std::list potomaka (sons). Klasa Heap upravlja celokupnom strukturom; ona sadrži listu korenskih čvorova (top()) i implementira operacije. Upotreba phantom čvora kao sentinela pojednostavljuje logiku operacija nad listom korena, eliminišući potrebu za posebnim proverama graničnih slučajeva.
+
+Amortizovano Umetanje Elemenata
+Metoda push ima amortizovanu O(1) vremensku složenost. Prilikom umetanja, novi čvor se kreira i direktno dodaje u listu korena bez ikakvog restrukturiranja stabala. Kompleksnost održavanja heap svojstva se odlaže za operaciju ekstrakcije, što ovu implementaciju čini izuzetno efikasnom za aplikacije sa čestim umetanjaima.
+
+Ekstrakcija i Konsolidacija Strukture
+Metoda pop je algoritamski najsloženiji deo. Proces započinje uklanjanjem čvora sa ekstremnom vrednošću (min/max). Njegovi direktni potomci se zatim premeštaju u listu korena heapa. Nakon ovoga sledi ključna faza pravljenja strukture stabla od ranije strukture koja je bila manje striktna. Program iterira kroz listu korena i koristi pomoćni vektor indeksiran dubinom čvorova. Tokom iteracije, čvorovi iste dubine se spajaju, a match-evi se nalaze pomoću vektora. Potrebno je ažurirati pokazivač na novi min/max element.
+
+Spajanje Dva Heapa
+Spajanje dva heapa, realizovano metodom merge, je operacija sa takođe amortizovanom O(1) složenošću. Implementacija izbegava kompleksno preuređivanje elemenata. Umesto toga, lista korena jednog heapa se u celosti nadovezuje na listu korena drugog. Potrebno je samo ažurirati pokazivač na novi ekstremni element.
+
+Logovanje
+Ubačeno je detaljno logovanje u kod, pored nužnih obaveznih outputa funkcija.
+
+
+
+COMMANDS30.TXT:
+
+0. Biranje radnje preko konzole
+1. Ucitavanje preko tekstualnog fajla
+1
+Napisite adresu fajla
+Commands30.txt
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  los karakter
+
+Aborted (core dumped)
+@NovakTJ ➜ /workspaces/asp2domaci3 (master) $ ./asp23
+0. Biranje radnje preko konzole
+1. Ucitavanje preko tekstualnog fajla
+1
+Napisite adresu fajla
+Commands30.txt
+Kreiram nove heap-ove
+Ubacujem element 50 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 25 u MAX heap
+Dodao element u root listu
+Ubacujem element 75 u MAX heap
+Dodao element u root listu
+Ubacujem element 40 u MAX heap
+Dodao element u root listu
+Ubacujem element 10 u MIN heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 8 u MIN heap
+Dodao element u root listu
+Ubacujem element 15 u MIN heap
+Dodao element u root listu
+Ubacujem element 2 u MIN heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+25
+75
+40
+50
+Ispisujem MIN HEAP
+8
+15
+2
+10
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 10
+Pravim strukturu stabla sada, broj root cvorova 3
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+8
+15
+2
+Spajam dva cvora: 15 i 8
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+8
+15
+15
+2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 2
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 2
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 8
+Spajam heap-ove
+Spajam dva heap-a: MIN sa MAX
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 50
+Pravim strukturu stabla sada, broj root cvorova 3
+Ispisujem stablo pre merge
+Ispisujem MAX HEAP
+25
+75
+40
+Spajam dva cvora: 75 i 25
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MAX HEAP
+25
+75
+25
+40
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 75
+Ubacujem element 50 u MIN heap
+Dodao element u root listu
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 40
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 75
+Ubacujem element 40 u MIN heap
+Dodao element u root listu
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 75
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 25
+Ubacujem element 75 u MIN heap
+Dodao element u root listu
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 25
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Ubacujem element 25 u MIN heap
+Dodao element u root listu
+Zavrsio spajanje heap-ova
+Ubacujem element 1 u MIN heap
+Dodao element u root listu
+Ubacujem element 100 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 4 u MIN heap
+Dodao element u root listu
+Ubacujem element 6 u MIN heap
+Dodao element u root listu
+Ubacujem element 80 u MAX heap
+Dodao element u root listu
+Uklanjam 3 elemenata iz blue heap-a
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 100
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 80
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 80
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Pocinjem pop operaciju na MAX heap-u
+ne moze pop, heap je prazan
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+Ispisujem MIN HEAP
+        50
+        40
+        75
+        25
+        1
+        4
+        6
+8
+        15
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+ne moze pop, heap je prazan
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 8
+Pravim strukturu stabla sada, broj root cvorova 8
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+        40
+        75
+        25
+        1
+        4
+        6
+        15
+Spajam dva cvora: 40 i 50
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+        25
+        1
+        4
+        6
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+        25
+        1
+        4
+        6
+        15
+Spajam dva cvora: 25 i 75
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+        75
+        1
+        4
+        6
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+        75
+        1
+        4
+        6
+        15
+Spajam dva cvora: 25 i 40
+Spojio cvorove, nova dubina: 2
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+        1
+        4
+        6
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+        1
+        4
+        6
+        15
+Spajam dva cvora: 4 i 1
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+        4
+        4
+        6
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+        4
+        4
+        6
+        15
+Spajam dva cvora: 15 i 6
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+        4
+        4
+6
+        15
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+        4
+        4
+6
+        15
+        15
+Spajam dva cvora: 6 i 1
+Spojio cvorove, nova dubina: 2
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+6
+        15
+        4
+        4
+6
+        15
+        15
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+6
+        15
+        4
+        4
+6
+        15
+        15
+Spajam dva cvora: 1 i 25
+Spojio cvorove, nova dubina: 3
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+        50
+40
+        50
+        75
+25
+40
+        50
+        75
+1
+25
+40
+        50
+        75
+6
+        15
+        4
+        4
+6
+        15
+        15
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 1
+Ubacujem element 14 u MIN heap
+Dodao element u root listu
+Ubacujem element 120 u MAX heap
+Heap je bio prazan, novi element je min/max
+Uklanjam 1 elemenata iz blue heap-a
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 120
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+Ispisujem MIN HEAP
+                        14
+1
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                        4
+Spajam heap-ove
+Spajam dva heap-a: MIN sa MAX
+Zavrsio spajanje heap-ova
+Ubacujem element 95 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+95
+Ispisujem MIN HEAP
+                        14
+1
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                        4
+Kreiram nove heap-ove
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 1
+Pravim strukturu stabla sada, broj root cvorova 4
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                        4
+Spajam dva cvora: 4 i 14
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                4
+                        14
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                4
+                        14
+Spajam dva cvora: 4 i 6
+Spojio cvorove, nova dubina: 2
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+        4
+                6
+                        15
+                        14
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+        4
+                6
+                        15
+                        14
+Spajam dva cvora: 4 i 25
+Spojio cvorove, nova dubina: 3
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+                        14
+        25
+                40
+                        50
+                        75
+                6
+                        15
+4
+        25
+                40
+                        50
+                        75
+                6
+                        15
+                        14
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 4
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 4
+Pravim strukturu stabla sada, broj root cvorova 3
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 6
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 14
+Pravim strukturu stabla sada, broj root cvorova 2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 6
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 6
+Pravim strukturu stabla sada, broj root cvorova 2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 15
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 15
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 25
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 25
+Pravim strukturu stabla sada, broj root cvorova 2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 40
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 75
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 40
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 40
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 50
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 50
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 95
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Kreiram nove heap-ove
+
+
+COMMANDS20.TXT:
+
+0. Biranje radnje preko konzole
+1. Ucitavanje preko tekstualnog fajla
+1
+Napisite adresu fajla
+Commands20.txt
+Kreiram nove heap-ove
+Ubacujem element 50 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 25 u MAX heap
+Dodao element u root listu
+Ubacujem element 75 u MAX heap
+Dodao element u root listu
+Ubacujem element 40 u MAX heap
+Dodao element u root listu
+Ubacujem element 10 u MIN heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 8 u MIN heap
+Dodao element u root listu
+Ubacujem element 15 u MIN heap
+Dodao element u root listu
+Ubacujem element 2 u MIN heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+25
+75
+40
+50
+Ispisujem MIN HEAP
+8
+15
+2
+10
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 50
+Pravim strukturu stabla sada, broj root cvorova 3
+Ispisujem stablo pre merge
+Ispisujem MAX HEAP
+25
+75
+40
+Spajam dva cvora: 75 i 25
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MAX HEAP
+25
+75
+25
+40
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 75
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 10
+Pravim strukturu stabla sada, broj root cvorova 3
+Ispisujem stablo pre merge
+Ispisujem MIN HEAP
+8
+15
+2
+Spajam dva cvora: 15 i 8
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MIN HEAP
+8
+15
+15
+2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 2
+Ubacujem element 1 u MIN heap
+Dodao element u root listu
+Ubacujem element 100 u MAX heap
+Dodao element u root listu
+Uklanjam 2 elemenata iz blue heap-a
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 40
+Pravim strukturu stabla sada, broj root cvorova 2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 100
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 100
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 75
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 75
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 25
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 25
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 2
+Pravim strukturu stabla sada, broj root cvorova 2
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 1
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+Ispisujem MIN HEAP
+8
+        15
+        1
+Kreiram nove heap-ove
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 1
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 8
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 8
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 15
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 15
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Kreiram nove heap-ove
+
+
+COMMANDS10.TXT:
+
+0. Biranje radnje preko konzole
+1. Ucitavanje preko tekstualnog fajla
+Napisite adresu fajla
+Kreiram nove heap-ove
+Ubacujem element 40 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 10 u MIN heap
+Heap je bio prazan, novi element je min/max
+Ubacujem element 7 u MIN heap
+Dodao element u root listu
+Ubacujem element 75 u MAX heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+75
+40
+Ispisujem MIN HEAP
+7
+10
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 40
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 75
+Pop na red heap
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 10
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 7
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+75
+Ispisujem MIN HEAP
+7
+Kreiram nove heap-ove
+Pocinjem pop operaciju na MIN heap-u
+Uklanjam element: 7
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 75
+Pravim strukturu stabla sada, broj root cvorova 0
+Napravio strukturu stabla, rebuildujem listu na vrhu
+heap prazan
+Pop zavrsen, novi min/max: -1
+Kreiram nove heap-ove
+
+
+
+MOJ PRIMER
+
+V
+D[17]
+G
+D[18]
+G
+D[7]
+G
+D[8]
+G
+M[2]
+G
+T
+G
+T
+G
+T
+G
+X
+
+
+
+0. Biranje radnje preko konzole
+1. Ucitavanje preko tekstualnog fajla
+Napisite adresu fajla
+Kreiram nove heap-ove
+Ubacujem element 17 u MAX heap
+Heap je bio prazan, novi element je min/max
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+17
+Ispisujem MIN HEAP
+Ubacujem element 18 u MAX heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+17
+Ispisujem MIN HEAP
+Ubacujem element 7 u MAX heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+7
+17
+Ispisujem MIN HEAP
+Ubacujem element 8 u MAX heap
+Dodao element u root listu
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+7
+8
+17
+Ispisujem MIN HEAP
+Ubacujem element 2 u MIN heap
+Heap je bio prazan, novi element je min/max
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+7
+8
+17
+Ispisujem MIN HEAP
+2
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 17
+Pravim strukturu stabla sada, broj root cvorova 3
+Ispisujem stablo pre merge
+Ispisujem MAX HEAP
+18
+7
+8
+Spajam dva cvora: 7 i 18
+Spojio cvorove, nova dubina: 1
+Ispisujem stablo posle merge
+Ispisujem MAX HEAP
+18
+7
+7
+8
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 18
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+	7
+	8
+Ispisujem MIN HEAP
+2
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 8
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 18
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+18
+	7
+Ispisujem MIN HEAP
+2
+Pop na blue heap
+Pocinjem pop operaciju na MAX heap-u
+Uklanjam element: 18
+Pravim strukturu stabla sada, broj root cvorova 1
+Napravio strukturu stabla, rebuildujem listu na vrhu
+Pop zavrsen, novi min/max: 7
+Ispisujem oba heap-a
+Ispisujem MAX HEAP
+7
+Ispisujem MIN HEAP
+2
+Izlazim iz programa

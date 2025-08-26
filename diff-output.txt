@@ -1,0 +1,9 @@
+$ diff "asp23.cpp" "stari asp23.cpp"
+162c162
+<     vector<Node*> v(2*n+3, nullptr);
+---
+>     vector<Node*> v(n+1, nullptr);
+175c175
+<             newnode = merge(newnode, oldnode);
+---
+>             newnode = merge(i, oldnode);

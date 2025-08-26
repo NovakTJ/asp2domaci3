@@ -159,7 +159,7 @@ int Heap::pop(){
     cout << "Pravim strukturu stabla sada, broj root cvorova " << top().size() << endl;
     Node* nmin = nullptr;
     int n = top().size();
-    vector<Node*> v(n+3, nullptr);
+    vector<Node*> v(2*n+3, nullptr);
     for(auto it = top().begin(); it!=top().end(); it++){
         Node* i = *it;
         if(!nmin || up(i->i , (nmin)->i)){
@@ -200,10 +200,7 @@ int Heap::pop(){
         }
     }
     cout << "Pop zavrsen, novi min/max: " << (nmin ? nmin->i : -1) << endl;
-    cout<<"!!!!!!dobar write sad:\n";
-    write();
     return sol;
-    
     //nadji min!
 }
 
